@@ -1,0 +1,82 @@
+<title>MemoPad</title>
+<link rel="stylesheet" href="/app.css" />
+<link rel="stylesheet" href="/email.css" />
+<link rel="stylesheet" href="/my.css" />
+<script src="/bundle.js"></script>
+<script>
+  window.CLIENT_ID = "139822952222-ss0m7844vbgs66nio2cjlmeic6h2qvd6.apps.googleusercontent.com"
+  window.SCOPES = "https://www.googleapis.com/auth/drive"
+
+
+  window.initialized = false
+
+  const updateSigninStatus = (isSignedIn)=>{
+    if(isSignedIn){
+      if(!initialized){
+        initialized = true
+        gapi.client.drive.files.list({
+          "q": "name = 'MarkdownMemoPad' and mimeType = 'application/vnd.google-apps.folder'"
+        }).then((res)=>{
+          const dir = res.result.files[0];
+          if(dir){
+            window.TOP_DIR_ID = dir.id;
+            startReact();
+          } else {
+            gapi.client.drive.files.create({
+              resource: { 'name': "MarkdownMemoPad", mimeType: "application/vnd.google-apps.folder" },
+              fields: "id"
+            }).then((res)=>{
+              location.reload();
+            });
+          }
+        });
+      }
+    } else {
+      if(initialized){
+        location.reload();
+      }
+    }
+  }
+
+  const eventListen = ()=>{
+    const a = document.querySelector("a")
+    if(!a){return}
+    a.addEventListener("click", ()=>{
+      if(gapi.auth2.getAuthInstance().isSignedIn.get()){
+        updateSigninStatus(true);
+      } else {
+        gapi.auth2.getAuthInstance().signIn();
+      }
+    });
+  }
+
+  window.initClient = ()=> {
+    gapi.client.init({
+      "clientId": CLIENT_ID,
+      "scope": SCOPES,
+      'discoveryDocs': ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest']
+    }).then(()=>{
+      gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+      updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+      eventListen()
+    });
+  };
+
+  window.handleClientLoad = ()=>{ gapi.load('client:auth2', initClient); }
+
+</script>
+
+<script async defer src="https://apis.google.com/js/api.js"
+  onload="this.onload=function(){};handleClientLoad()"
+  onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+
+<div id="outerrim" className='content pure-u' style='padding-left:20px;padding-right:20px'>
+  <h1>MemoPad</h1>
+  <p>Memo app that can be written with Markdown. All code runs on your browser. Your memos will be saved in Google Drive.</p>
+  <p><img src="/shot.png" alt="screenshot" style='max-width:40%'/></p>
+  <p><a class='pure-button pure-button-primary' href="javascript:void(0)">Auth with Google</a></p>
+  <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+  <p><a target='_blank' href='https://github.com/ssig33'>Source Code(Github)</a></p>
+</div>
+<div />

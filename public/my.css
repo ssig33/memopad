@@ -1,0 +1,45 @@
+.marked-area, .marked-area textarea{
+  width:100%;
+}
+.marked-area{
+  height:100%;
+}
+.marked-area textarea{
+  height: 300px;
+}
+input{
+  width:100%;
+}
+input.search{
+  width:auto;
+}
+
+.collection_selector{
+  list-style-type: none;
+}
+.collection_selector li{
+  padding-top: 2px;
+}
+
+.related{
+  margin-top: 4px;
+}
+
+.search_collectio, .history {
+  text-align: center;
+}
+
+.history button {
+  margin-right: 10px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  background: rgb(66, 184, 221);
+  color: white;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.search_collection input {
+  margin: 10px !important;
+  margin-left: 20px !important;
+  max-width: 120px;
+}
