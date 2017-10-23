@@ -20,7 +20,7 @@ class NewCard extends React.Component{
 const card = (card, col_id, select_id)=>{
   const href = `/collections_cards/${col_id}/${card.id}`;
   // 選択中のカードは強調表示
-  const className = parseInt(String(select_id)) == card.id ? "email-item email-item-selected pure-g" : "email-item pure-g"
+  const className = select_id == card.id ? "email-item email-item-selected pure-g" : "email-item pure-g"
   
   return <div className={className} key={`card-${card.id}`}>
     <div className="pure-u">

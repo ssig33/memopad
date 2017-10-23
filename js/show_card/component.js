@@ -40,7 +40,7 @@ class NewCard extends React.Component{
 const card = (card, select_id)=>{
   const href = `/cards/${card.id}`;
   
-  const className = parseInt(String(select_id)) == card.id ? "email-item email-item-selected pure-g" : "email-item pure-g"
+  const className = select_id == card.id ? "email-item email-item-selected pure-g" : "email-item pure-g"
   
   return <div className={className} key={`card-${card.id}`}>
     <div className="pure-u">

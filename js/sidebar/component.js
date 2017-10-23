@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { collections } from '../google'
 
 const collectionLi = (collection, id)=>{
-  const collection_id = parseInt(String(id));
+  const collection_id = id;
   const className = collection_id == collection.id ? "pure-menu-item pure-menu-selected" : "pure-menu-item"
   return <li className={className} key={`collection_${collection.id}`}>
     <Link to={`/collections/${collection.id}`} className='pure-menu-link'>{collection.name}</Link>
