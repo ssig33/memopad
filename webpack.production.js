@@ -19,5 +19,8 @@ module.exports = {
       }
     ],
   },
-  plugins: [new webpack.optimize.UglifyJsPlugin()]
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)})
+  ]
 }
