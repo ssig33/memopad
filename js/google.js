@@ -22,7 +22,7 @@ const collections = (func)=>{
 
 const collection = (id, func) => {
   gapi.client.drive.files.get({fileId: id}).then((res)=>{
-    search(res.result.name, func);
+    search(res.result.name.replace(/\ /g, '_'), func);
   });
 }
 
@@ -44,41 +44,54 @@ const searchQuery = (keyword)=>{
 }
 
 const getCard = (card_id, func) => {
-  gapi.client.drive.files.get({fileId: card_id, fields: "*"}).then((res)=>{
+  gapi.client.drive.files.get({fileId: card_id, fields: "*"}).then((res)=>{ 
     let card = res.result;
-    gapi.client.drive.files.get({fileId: card_id, alt: 'media'}).then((res)=>{
-      card.body = res.body;
-      card.name = card.name.replace(/\.txt$/, '');
-      func(card);
-    });
+    if(card.mimeType === 'application/vnd.google-apps.document'){
+      gapi.client.drive.files.export({ 
+        fileId: card.id,
+        mimeType: 'text/plain'
+      }).then((res)=>{
+        card.body = res.body;
+        func(card);
+      });
+    } else {
+      gapi.client.drive.files.get({fileId: card_id, alt: 'media'}).then((res)=>{
+        card.body = res.body;
+        card.name = card.name.replace(/\.txt$/, '');
+        func(card);
+      });
+    }
   });
 }
 
 const update = (id, title, body, func)=>{
-  gapi.client.request({
-    path: '/upload/drive/v3/files/' + id,
-    method: 'PATCH',
-    params: {
-      uploadType: 'media'
-    },
-    body: body
+  gapi.client.drive.files.update({
+    fileId: id,
+    name: title
   }).then((res)=>{
-    proccessHashTag(res.result, body, func)
+    gapi.client.request({
+      path: '/upload/drive/v3/files/' + id,
+      method: 'PATCH',
+      params: {
+        uploadType: 'media',
+      },
+      body: body
+    }).then((res)=>{
+      proccessHashTag(res.result, body, func)
+    });
   });
 }
 
 const create = (title, body, func)=>{
-  gapi.client.request({
-    path: '/drive/v3/files',
-    method: 'POST',
-    body: JSON.stringify({
-      mimeType: 'text/plain',
-      name: `${title}.txt`,
+  gapi.client.drive.files.create({
+    resource: {
+      mimeType: 'application/vnd.google-apps.document',
+      name: `${title}`,
       parents: [TOP_DIR_ID]
-    })
+    }
   }).then((res)=>{
     update(res.result.id, title, body, func);
-  })
+  });
 }
 
 const proccessHashTag = (res, body, func)=>{
