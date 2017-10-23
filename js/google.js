@@ -51,7 +51,7 @@ const getCard = (card_id, func) => {
         fileId: card.id,
         mimeType: 'text/plain'
       }).then((res)=>{
-        card.body = res.body;
+        card.body = res.body.replace(/[\n\r][\n\r][\n\r]+/g, "\n\n")
         func(card);
       });
     } else {
