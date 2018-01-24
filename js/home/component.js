@@ -13,11 +13,11 @@ class Search extends React.Component{
     search(keyword, (files)=> this.props.loadHome(files));
   }
   render(){
-    return <div className='pure-u'>
-      <form className='pure-form' onSubmit={(e)=> this.search(e)}>
+    return <div>
+      <form onSubmit={(e)=> this.search(e)}>
         <fieldset>
-          <input ref='search' className='search' size="20" type='text'/>
-          <button type='submit' className='pure-button pure-button-primary'>Search</button>
+          <input ref='search' className='Search' size="20" type='text'/>
+          <button type='submit' className='Button ButtonPrimary'>Search</button>
         </fieldset>
       </form>
     </div>
@@ -27,10 +27,10 @@ class Search extends React.Component{
 class NewCard extends React.Component{
   render(){
     const url = "/new"
-    return <div className="email-item pure-g">
+    return <div className="Item">
       <Search history={this.props.history} loadHome={this.props.loadHome} />
-      <div className='pure-u-1'>
-        <Link to={url} className="secondary-button pure-button">New</Link>
+      <div>
+        <Link to={url} className="Button ButtonSecondary">New</Link>
       </div>
     </div>
   }
@@ -39,7 +39,7 @@ class NewCard extends React.Component{
 const card = (card)=>{
   const href = `/cards/${card.id}`;
 
-  const className = "email-item pure-g"
+  const className = "Item"
   
   return <div className={className} key={`card-${card.id}`}>
     <div className="pure-u">
@@ -57,7 +57,7 @@ const card = (card)=>{
 
 class CardList extends React.Component {
   render(){
-    return <div id='list' className='pure-u-1'>
+    return <div id='list' className='CardList'>
       <NewCard history={this.props.history} loadHome={this.props.loadHome}/>
       {this.props.cards.map((e)=>{return card(e) })}  
     </div>
@@ -70,7 +70,7 @@ export default class Top extends React.Component {
     getHome((files)=> this.props.loadHome(files));
   }
   render(){
-    return <div id="layout" className="content pure-g">
+    return <div id="layout" className="Content">
       <Sidebar />
       <CardList history={this.props.history} cards={this.props.cards} loadHome={this.props.loadHome}/>
     </div>
