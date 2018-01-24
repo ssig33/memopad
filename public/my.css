@@ -1,3 +1,194 @@
+body, html{
+  margin: 0;
+  height:100%;
+  font-family:sans-serif;
+}
+
+.ReactWorld, .Content{
+  height:100%;
+}
+
+a{
+  color:#1b98f8;
+  text-decoration:none;
+}
+
+h4, h3{
+  margin: 0;
+}
+
+fieldset{
+  border:0;
+  margin:0;
+  padding-left:0;
+  padding-right:0;
+  padding-top:7px;
+  padding-bottom:7px;
+}
+
+input, textarea{
+  padding: .5em .6em;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius:4px;
+  vertical-align:middle;
+  box-shadow:inset 0 1px 3px #ddd;
+  box-sizing:border-box;
+  line-height:normal;
+  margin:0;
+  font:inherit;
+  color:inherit;
+}
+
+.Button{
+	font-family: inherit;
+	font-size: 100%;
+	padding: .5em 1em;
+	color: #444;
+	color: rgba(0,0,0,.8);
+	border: 1px solid #999;
+	border: transparent;
+	background-color: #E6E6E6;
+	text-decoration: none;
+	border-radius: 2px;
+	display: inline-block;
+	zoom: 1;
+	white-space: nowrap;
+	vertical-align: middle;
+	text-align: center;
+	cursor: pointer;
+	-webkit-user-drag: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+  box-sizing: border-box;
+	line-height: normal;
+  cursor: pointer;
+	font:inherit;
+	margin:0;
+}
+
+.ButtonPrimary{
+  background-color: #0078e7;
+  color: #fff;
+}
+
+.ButtonSecondary{
+  background: #fff;
+  border: 1px solid #ddd;
+  color: #666;
+  padding: 0.5em 2em;
+  font-size: 80%;
+  box-shadow: none;
+  border-radius: 20px;
+}
+
+#layout{  
+  display:flex;
+}
+
+.SideBar{
+  background:rgb(37, 42, 58);
+  width:150px;
+  height:100%;
+  overflow:scroll;
+  text-align:center;
+}
+
+.SideBar ul{
+  text-align:left;
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.SideBar ul li{
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.SideBar ul li a{
+  display:inline-block;
+  color: #fff;
+  padding: .5em 1em;
+  position: relative;
+  white-space:nowrap;
+  
+}
+
+.CardList{
+  height:100%;
+  width:350px !important;
+  overflow-y:scroll;
+  border-right: 1px solid #ddd;
+}
+
+.CardList .Item{
+  border-bottom: 1px solid #ddd;
+  border-left: 6px solid transparent;
+  padding: 0.9em 1em;
+}
+
+.Item p{
+  font-size:80%;
+  margin: 0.4em 0;
+}
+
+.ItemSelected{
+  background: #eee;
+}
+
+.Search{
+  width:auto;
+}
+
+.Home{
+  background-color:#0078e7;
+  color:white;
+  margin: 1em 0;
+  border-radius:20px;
+  padding: .5em 1em;
+  display: inline-block;
+}
+
+.Main{
+  flex: 1;
+  max-height:100%;
+  overflow-y: scroll;
+}
+
+.ContentHeader{
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  padding: 1em 2em;
+}
+
+.ContentHeader .Title{
+  width: 75%;
+}
+
+.ContentHeader .Subtitle{
+  margin: 0;
+}
+
+.Title h3{
+  padding: 0;
+}
+
+.ContentBody{
+  padding: 1em 2em;
+}
+
+.EditForm{
+  display:flex
+}
+
+.TextArea{
+  width:75%;
+}
+
 .marked-area, .marked-area textarea{
   width:100%;
 }
@@ -11,7 +202,7 @@ input{
   width:100%;
 }
 input.search{
-  width:auto;
+  width:300px;
 }
 
 .collection_selector{

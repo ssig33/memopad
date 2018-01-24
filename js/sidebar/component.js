@@ -6,9 +6,9 @@ import { collections } from '../google'
 
 const collectionLi = (collection, id)=>{
   const collection_id = id;
-  const className = collection_id == collection.id ? "pure-menu-item pure-menu-selected" : "pure-menu-item"
+  const className = collection_id == collection.id ? "MenuSelected" : ""
   return <li className={className} key={`collection_${collection.id}`}>
-    <Link to={`/collections/${collection.id}`} className='pure-menu-link'>{collection.name}</Link>
+    <Link to={`/collections/${collection.id}`}>{collection.name}</Link>
   </li>
 }
 
@@ -39,27 +39,23 @@ export default class Top extends React.Component {
   }
   render(){
     const collection_id = this.props.match ? this.props.match.params.collection_id : null;
-    return <div id='nav' className='pure-u'>
-      <a className="nav-menu-button">Menu</a>
-      <div className="nav-inner">
-        <Link to="/" className="primary-button pure-button">Home</Link>
-        <div className="pure-menu">
-          
-          <ul className="pure-menu-list">
-            <li className="pure-menu-item history">
-              <button className="pure-button" onClick={()=> this.prev()}>{`<`}</button>
-              <button className="pure-button" onClick={()=> this.next()}>{`>`}</button>
-            </li>
-            <li className='pure-menu-item search_collection'>
-              <input value={this.props.search_text} onChange={(e)=> this.handleSearch(e)}/>
-            </li>
-            {this.search_collections().map((e)=>{ return collectionLi(e, collection_id) })}
-            <li className='pure-menu-item'>
-              <hr/>
-              <a className='pure-menu-link' href='javascript:void(0)' onClick={()=> this.signOut()}>Sign Out</a>
-            </li>
-          </ul>
-        </div>
+    return <div>
+      <div className="SideBar">
+        <Link to="/" className="Home">Home</Link>
+        <ul>
+          <li className="pure-menu-item history">
+            <button className="Button" onClick={()=> this.prev()}>{`<`}</button>
+            <button className="Button" onClick={()=> this.next()}>{`>`}</button>
+          </li>
+          <li className='search_collection'>
+            <input value={this.props.search_text} onChange={(e)=> this.handleSearch(e)}/>
+          </li>
+          {this.search_collections().map((e)=>{ return collectionLi(e, collection_id) })}
+          <li>
+            <hr/>
+            <a href='javascript:void(0)' onClick={()=> this.signOut()}>Sign Out</a>
+          </li>
+        </ul>
       </div>
     </div>
   }
