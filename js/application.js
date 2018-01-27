@@ -12,7 +12,7 @@ import CollectionCard from './collection_card'
 
 const App = () => (
   <BrowserRouter>
-    <div>
+    <div className='ReactWorld'>
       <Route exact path='/' component={Home} />
       <Route exact path='/new' component={NewCard} />
       <Route exact path='/cards/:card_id' component={ShowCard} />

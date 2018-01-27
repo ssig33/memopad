@@ -3,12 +3,10 @@ import { Link, Redirect } from 'react-router-dom'
 
 import CardList from './card_list'
 import Sidebar from '../sidebar'
-import axios from 'axios'
 
 import { LiveMarkedArea } from 'react-markdown-area'
 
 import { getHome, search, getCard, update, create, collections } from '../google'
-
 
 class CollectionSelector extends React.Component {
   elm(collection){
@@ -16,7 +14,7 @@ class CollectionSelector extends React.Component {
       const regexp = new RegExp(String(this.state.word))
       if(!collection.name.match(regexp)){ return null }
     }
-    return <li key={`collection_edit_${collection.id}`}><a className='pure-button' href='javascript:void(0)' onClick={(e)=> this.click(e)}>{collection.name}</a></li>
+    return <li key={`collection_edit_${collection.id}`}><a className='Button' href='javascript:void(0)' onClick={(e)=> this.click(e)}>{collection.name}</a></li>
   }
   click(e){
     this.props.addTag(` #${e.target.textContent.replace(/\ /g, '_')}`);
@@ -55,22 +53,22 @@ class Edit extends React.Component {
     }
   }
   render(){
-    return <div id='main' className='pure-u-1'>
-      <div className='email-content'>
-        <div className="email-content-header pure-g">
-          <div className='pure-u-1'>
-            <Link to={`/`} className="secondary-button pure-button">Cancel</Link>
+    return <div id='main'>
+      <div className='Content'>
+        <div className="ContentHeader">
+          <div className='Title'>
+            <Link to={`/`} className="Button ButtonSecondary">Cancel</Link>
             <span>&nbsp;</span>
-            <button className="secondary-button pure-button" onClick={()=> this.save()}>Save</button>
+            <button className="Button ButtonSecondary" onClick={()=> this.save()}>Save</button>
           </div>
         </div>
-        <div className="email-content-body pure-form">
-          <div className='pure-g'>
-            <div className='pure-u-3-4'>
+        <div className="ContentBody">
+          <div className='EditForm'>
+            <div className='TextArea'>
               <input className='title' defaultValue={(new Date()).toLocaleDateString().replace(/\//g, '-')}/>
               <LiveMarkedArea/>
             </div>
-            <div className='pure-u-1-4'>
+            <div>
               <CollectionSelector collections={this.props.collections} addTag={(s)=> this.addTag(s)}/>
             </div>
           </div>

@@ -9,9 +9,9 @@ import {getHome, search, getCard, collection, related} from '../google'
 class NewCard extends React.Component{
   render(){
     const url = this.props.collection_id ? `/new?collection_id=${this.props.collection_id}` : "/new";
-    return <div className="email-item pure-g">
-      <div className='pure-u-1'>
-        <Link to={url} className="secondary-button pure-button">New</Link>
+    return <div className="Item">
+      <div>
+        <Link to={url} className="Button ButtonSecondary">New</Link>
       </div>
     </div>
   }
@@ -20,12 +20,12 @@ class NewCard extends React.Component{
 const card = (card, col_id, select_id)=>{
   const href = `/collections_cards/${col_id}/${card.id}`;
   // 選択中のカードは強調表示
-  const className = select_id == card.id ? "email-item email-item-selected pure-g" : "email-item pure-g"
+  const className = select_id == card.id ? "Item ItemSelected" : "Item"
   
   return <div className={className} key={`card-${card.id}`}>
-    <div className="pure-u">
-      <Link to={href}><h4 className="email-subject">{card.name}</h4></Link>
-      <p className="email-desc">
+    <div>
+      <Link to={href}><h4>{card.name}</h4></Link>
+      <p>
         Created At {(new Date(card.createdTime)).toLocaleString()}
         <br />
         Updated At {(new Date(card.modifiedTime)).toLocaleString()}
@@ -36,7 +36,7 @@ const card = (card, col_id, select_id)=>{
 
 class CardList extends React.Component {
   render(){
-    return <div id='list' className='pure-u-1'>
+    return <div id='list' className='CardList'>
       <NewCard collection_id={this.props.collection_id} history={this.props.history}/>
       {this.props.cards.map((e)=>{return card(e, this.props.collection_id, this.props.select_id) })}  
     </div>
@@ -64,7 +64,7 @@ export default class CollectionCard  extends React.Component {
 
     const card = this.props.card;
     if(!card){return null }
-    return <div id="layout" className="content pure-g">
+    return <div id="layout" className="Content">
       <Sidebar match={this.props.match}/>
       <CardList collection_id={collection_id} cards={this.props.cards} select_id={card.id}/>
       <Card card={card} related={this.props.related}/>     
