@@ -1,7 +1,7 @@
 // カードを右側に表示するやつ
 import React from 'react'
 import { Link } from 'react-router-dom'
-const marked = require('marked');
+import Editor from 'tui-editor';
 
 class Related extends React.Component {
   render(){
@@ -15,10 +15,16 @@ class Related extends React.Component {
 }
 
 export default class Card extends React.Component{
+  componentDidUpdate(){
+    document.querySelectorAll(".tui-editor-contents").forEach((e)=>{ e.remove() });
+    this.editor = Editor.factory({
+      el: this.refs.tui,
+      initialValue: this.props.card.body,
+      viewer: true
+    })
+  }
   render(){
     const card = this.props.card;
-    marked.setOptions({ breaks: true });
-    const body = marked(card.body);
     return <div id="main" className="Main">
       <div className="ContentHeader">
         <div className="Title">
@@ -35,7 +41,9 @@ export default class Card extends React.Component{
         </div>
         
       </div>
-      <div className="ContentBody" dangerouslySetInnerHTML={{__html: body}} />
+      <div className="ContentBody">
+        <div ref='tui' />
+      </div>
       <div className="ContentBody">
         {this.props.related.map((r)=> <Related key={`related_${r.collection.id}`} r={r} />)}
       </div>

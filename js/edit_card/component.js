@@ -6,7 +6,7 @@ import { getHome, search, getCard, update, collections } from '../google'
 import CardList from './card_list'
 import Sidebar from '../sidebar'
 
-import { LiveMarkedArea } from 'react-markdown-area'
+import Editor from 'tui-editor'
 
 class CollectionSelector extends React.Component {
   elm(collection){
@@ -36,16 +36,25 @@ class Edit extends React.Component {
   save(){
     const card = this.props.card;
     const title = document.querySelector('input.title').value;
-    const body = document.querySelector('textarea').value;
+    const body = this.editor.getMarkdown();
     update(card.id, title, body, ()=> this.props.history.push(`/cards/${card.id}`));
   }
   addTag(tag){
-    const v = document.querySelector('textarea').value;
+    const v = this.editor.getMarkdown();
     if(v.split("\n").pop().match(/#/)){
-      document.querySelector('textarea').value += tag;
+      this.editor.setMarkdown(v + tag, true);
     } else {
-      document.querySelector('textarea').value += `\n\n${tag}`;
+      this.editor.setMarkdown(v + `\n\n${tag}`, true);
     }
+  }
+  componentDidMount(){
+    this.editor = new Editor({
+      el: this.refs.tui,
+      initialEditType: 'markdown',
+      previewStyle: 'vertical',
+      height: '400px',
+      initialValue: this.props.card.body
+    });
   }
   render(){
     const card = this.props.card;
@@ -62,7 +71,7 @@ class Edit extends React.Component {
           <div className='EditForm'>
             <div className='TextArea'>
               <input className='title' defaultValue={card.name}/>
-              <LiveMarkedArea defaultValue={card.body}/>
+              <div ref='tui' />
             </div>
             <div>
                <CollectionSelector collections={this.props.collections} addTag={(s)=> this.addTag(s)}/>

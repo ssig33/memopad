@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom'
 import CardList from './card_list'
 import Sidebar from '../sidebar'
 
-import { LiveMarkedArea } from 'react-markdown-area'
+import Editor from 'tui-editor'
 
 import { getHome, search, getCard, update, create, collections } from '../google'
 
@@ -35,7 +35,7 @@ class CollectionSelector extends React.Component {
 class Edit extends React.Component {
   save(){
     const title = document.querySelector('input.title').value;
-    const body = document.querySelector('textarea').value;
+    const body = this.editor.getMarkdown();
     create(title, body, (card)=> {
       if(this.props.collection_id){
         this.props.history.push(`/collections_cards/${this.props.collection_id}/${card.id}`);
@@ -45,12 +45,20 @@ class Edit extends React.Component {
     });
   }
   addTag(tag){
-    const v = document.querySelector('textarea').value;
+    const v = this.editor.getMarkdown();
     if(v.split("\n").pop().match(/#/)){
-      document.querySelector('textarea').value += tag;
+      this.editor.setMarkdown(v + tag, true);
     } else {
-      document.querySelector('textarea').value += `\n\n${tag}`;
+      this.editor.setMarkdown(v + `\n\n${tag}`, true);
     }
+  }
+  componentDidMount(){
+    this.editor = new Editor({
+      el: this.refs.tui,
+      initialEditType: 'markdown',
+      previewStyle: 'vertical',
+      height: '400px'
+    });
   }
   render(){
     return <div id='main'>
@@ -66,7 +74,7 @@ class Edit extends React.Component {
           <div className='EditForm'>
             <div className='TextArea'>
               <input className='title' defaultValue={(new Date()).toLocaleDateString().replace(/\//g, '-')}/>
-              <LiveMarkedArea/>
+              <div ref='tui' />
             </div>
             <div>
               <CollectionSelector collections={this.props.collections} addTag={(s)=> this.addTag(s)}/>
