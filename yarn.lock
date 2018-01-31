@@ -4943,9 +4943,9 @@ range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
 
-"raphael@git+https://github.com/nhnent/raphael.git#2.2.0b":
+"raphael@https://github.com/nhnent/raphael.git#2.2.0b":
   version "2.2.0-b"
-  resolved "git+https://github.com/nhnent/raphael.git#38d4ba69d2207954c02b6f64369b5405e40c56a6"
+  resolved "https://github.com/nhnent/raphael.git#38d4ba69d2207954c02b6f64369b5405e40c56a6"
   dependencies:
     eve "git://github.com/adobe-webplatform/eve.git#eef80ed"
 
@@ -5996,7 +5996,7 @@ to-regex@^3.0.1:
     extend-shallow "^2.0.1"
     regex-not "^1.0.0"
 
-"toMark@github:nhnent/toMark#0.0.19":
+toMark@nhnent/toMark#0.0.19:
   version "0.0.19"
   resolved "https://codeload.github.com/nhnent/toMark/tar.gz/d611f9e6cca35373dad15ced8ffdf7aa7828a7a4"
 
