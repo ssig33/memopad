@@ -33,11 +33,13 @@ class CollectionSelector extends React.Component {
 }
 
 class Edit extends React.Component {
-  save(){
+  save(redirect){
     const card = this.props.card;
     const title = document.querySelector('input.title').value;
     const body = this.editor.getMarkdown();
-    update(card.id, title, body, ()=> this.props.history.push(`/cards/${card.id}`));
+    if(redirect){
+      update(card.id, title, body, ()=> this.props.history.push(`/cards/${card.id}`));
+    }
   }
   addTag(tag){
     const v = this.editor.getMarkdown();
@@ -55,6 +57,24 @@ class Edit extends React.Component {
       height: '400px',
       initialValue: this.props.card.body
     });
+    this.editor.eventManager.listen("change", (e)=>{
+      this.shouldSave = true;
+    });
+    this.shouldEndSaveLoop = false;
+    this.saveLoop();
+  }
+  componentWillUnmount(){
+    this.shouldEndSaveLoop = true;
+  }
+  saveLoop(){
+    if(this.shouldEndSaveLoop){ return true };
+    if(this.shouldSave){
+      this.save(false);
+      this.shouldSave = false;
+      setTimeout(()=>{this.saveLoop()}, 5000);
+    } else {
+      setTimeout(()=>{this.saveLoop()}, 200);
+    }
   }
   render(){
     const card = this.props.card;
@@ -64,7 +84,7 @@ class Edit extends React.Component {
           <div className='Title'>
             <Link to={`/cards/${card.id}`} className="Button ButtonSecondary">Cancel</Link>
             <span>&nbsp;</span>
-            <button className="Button ButtonSecondary" onClick={()=> this.save()}>Save</button>
+            <button className="Button ButtonSecondary" onClick={()=> this.save(true)}>Done</button>
           </div>
         </div>
         <div className="ContentBody">
