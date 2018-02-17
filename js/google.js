@@ -57,7 +57,7 @@ const getCard = (card_id, func) => {
     } else {
       gapi.client.drive.files.get({fileId: card_id, alt: 'media'}).then((res)=>{
         card.body = res.body;
-        card.name = card.name.replace(/\.txt$|\.md$/, '');
+        card.name = card.name.replace(/\.txt$/, '');
         func(card);
       });
     }
@@ -82,46 +82,15 @@ const update = (id, title, body, func)=>{
   });
 }
 
-const utf8_to_b64 = (str)=>{
-  return window.btoa(unescape(encodeURIComponent(str)));
-}
-
 const create = (title, body, func)=>{
-  const boundary = '-------314159265358979323846';
-  const delimiter = "\r\n--" + boundary + "\r\n";
-  const close_delim = "\r\n--" + boundary + "--";
-  const metadata = {
-    title: title,
-    mimeType: 'text/plain',
-    parents: [TOP_DIR_ID]
-  };
-  const base64Data = utf8_to_b64(body);
-  const multipartRequestBody = delimiter +
-   'Content-Type: application/json\r\n\r\n' + JSON.stringify(metadata) + delimiter +
-   'Content-Type: ' + 'text/plain' + '\r\n' +
-   'Content-Transfer-Encoding: base64\r\n' +
-   '\r\n' + base64Data + close_delim;
-  
- 	const request_arg = {
-    path: '/upload/drive/v2/files',
-    'method': 'POST',
-    'params': {
-      'uploadType': 'multipart'
-    },
-    'headers': {
-      'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-    },
-    'body': multipartRequestBody
-  };
-
-  const request = gapi.client.request(request_arg);
-  request.execute((result)=>{
-    gapi.client.drive.files.update({  
-      fileId: result.id,
-      addParents: TOP_DIR_ID
-    }).then(()=>{
-      proccessHashTag(result, body, func);
-    });
+  gapi.client.drive.files.create({
+    resource: {
+      mimeType: 'application/vnd.google-apps.document',
+      name: `${title}`,
+      parents: [TOP_DIR_ID]
+    }
+  }).then((res)=>{
+    update(res.result.id, title, body, func);
   });
 }
 
@@ -198,7 +167,7 @@ const related = (card_id, func)=>{
     tags.forEach((tag)=>{
       const keyword = tag.replace(/_/g, ' ');
       promises.push(gapi.client.drive.files.list({
-        q: `name = '${keyword}' and '${TOP_DIR_ID}' in parents`,
+        q: `name = '${keyword}' and '${TOP_DIR_ID}' in parents and mimeType = 'application/vnd.google-apps.folder'`,
         orderBy: "modifiedTime desc"
       }));
     });
