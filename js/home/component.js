@@ -9,7 +9,6 @@ class Search extends React.Component{
   search(e){
     e.preventDefault();
     const keyword = this.refs.search.value;
-    this.props.history.push("/?query="+encodeURIComponent(keyword));
     search(keyword, (files)=> this.props.loadHome(files));
   }
   render(){
