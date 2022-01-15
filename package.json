@@ -16,7 +16,7 @@
     "file-loader": "^1.1.4",
     "glob": "^7.1.2",
     "js-yaml": "^3.9.1",
-    "marked": "^0.3.6",
+    "marked": "^4.0.10",
     "node-sass": "^4.5.3",
     "path-complete-extname": "^0.1.0",
     "postcss-loader": "^2.0.6",
