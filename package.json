@@ -17,7 +17,7 @@
     "glob": "^7.1.2",
     "js-yaml": "^3.9.1",
     "marked": "^0.3.6",
-    "node-sass": "^4.5.3",
+    "node-sass": "^7.0.0",
     "path-complete-extname": "^0.1.0",
     "postcss-loader": "^2.0.6",
     "postcss-smart-import": "^0.7.5",
